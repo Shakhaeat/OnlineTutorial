@@ -11,19 +11,20 @@ use JWTAuth;
 class AuthController extends Controller
 {
     public function register(Request $request){
-        $validator = Validator::make($request->all(), [
-            'name' => 'string|max:255',
-            'email' => 'string|max:255',
-            'password' => 'string|min:2',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'string|max:255',
+        //     'email' => 'string|max:255',
+        //     'password' => 'string|min:2',
+        //     'phone' =>
+        // ]);
         
-        if ($validator->fails()) {
-            return response()->json([
-                'code' => 400,
-                'status' => false,
-                'message' => "Validation Failed"
-            ], 400);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'code' => 400,
+        //         'status' => false,
+        //         'message' => "Validation Failed"
+        //     ], 400);
+        // }
 
         $input = $request->all();
         $user = User::create($input);

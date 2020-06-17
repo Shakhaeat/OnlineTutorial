@@ -41,22 +41,42 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Route::get('course', 'CourseController@index');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-   return $request->user();
-});
+
+
+//This also important
+
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+// });
  
-Route::group([
+// Route::group([
  
-   'middleware' => 'api',
+//    'middleware' => 'api',
  
-], function ($router) {
+// ], function ($router) {
  
-   Route::post('login', 'AuthController@login');
-   Route::post('logout', 'AuthController@logout');
-   Route::post('refresh', 'AuthController@refresh');
-   Route::post('me', 'AuthController@me');
-   Route::post('register', 'AuthController@register');
- //  Route::get('users', 'UserController@index');
-   Route::get('users', 'CourseController@index');
-});
+//    Route::post('login', 'AuthController@login');
+//    Route::post('logout', 'AuthController@logout');
+//    Route::post('refresh', 'AuthController@refresh');
+//    Route::post('me', 'AuthController@me');
+//    Route::post('register', 'AuthController@register');
+//  //  Route::get('users', 'UserController@index');
+//    Route::get('users', 'CourseController@index');
+// });
 //Route::get('users', 'CourseController@index');
+
+////////
+
+//For JWT Middleware
+
+Route::post('login', 'AuthController@login');
+Route::post('register', 'AuthController@register');
+Route::get('course', 'CourseController@index');
+Route::group([
+    'middleware' => ['api','jwt.verify'],
+], function ($router) {
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+   // Route::get('users', 'CourseController@index');
+});
