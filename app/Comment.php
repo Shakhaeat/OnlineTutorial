@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+	protected $fillable = ['user_id', 'lecture_list_id', 'rating', 'comment'];
     //This is belongs to a User
     public function user() {
 
-        return $this->belongsTo(App\User::class);
+        return $this->belongsTo(User::class);
     }
 
     //This is also belongs to Lecture List

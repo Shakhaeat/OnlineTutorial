@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
+	protected $fillable = ['title', 'level', 'image', 'description', 'course_category', 'course_instructor', 'duration', 'total_class','department'];
+	
     //This is belongs to User
     public function users() {
 

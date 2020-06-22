@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-    // $user = \App\User::first();
-    // $course = \App\Course::all();
-    // $user->courses()->attach($course);
-    // dd($course);
-});
+// Route::get('/', function () {
+//     return view('welcome');
+//     // $user = \App\User::first();
+//     // $course = \App\Course::all();
+//     // $user->courses()->attach($course);
+//     // dd($course);
+// });
+
+
+//Route::get('/', 'CourseController@index');

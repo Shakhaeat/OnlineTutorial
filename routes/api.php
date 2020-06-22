@@ -71,12 +71,36 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
-Route::get('course', 'CourseController@index');
+
+//For Courses
+
+//Route::get('course', 'CourseController@index');
+//Route::get('/course', 'CourseController@allCourse');
+Route::get('/course', 'CourseController@latestCourse');
+//Route::post('/create', 'CourseController@create');
+Route::get('/course/{id}', 'CourseController@courseByID');
+
+
+//For Comments
+Route::get('/comment/', 'CommentController@index');
+
+Route::get('/comment/{lecture_list_id}', 'CommentController@show');
+
 Route::group([
     'middleware' => ['api','jwt.verify'],
 ], function ($router) {
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-   // Route::get('users', 'CourseController@index');
+    Route::get('users', 'CourseController@index');
+
+    //For Comments
+    Route::post('comment/{lecture_list_id}', 'CommentController@store');
+    Route::get('comment/{lecture_list_id}/edit', 'CommentController@edit');
+    Route::put('comment/{lecture_list_id}', 'CommentController@update');
+    Route::delete('comment/{lecture_list_id}', 'CommentController@destroy');
+
+    //For Courses
+    Route::post('/course', 'CourseController@store');
+
 });

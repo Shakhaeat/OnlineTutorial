@@ -19,13 +19,19 @@ class CreateCoursesTable extends Migration
             $table->string('title');
             $table->string('level');
             $table->text('description');
+            $table->string('course_category')->nullable();
+            $table->string('course_instructor');
             $table->string('duration');
             $table->integer('total_class');
             $table->string('department');
-            $table->string('rating', 5)->nullable();
-            $table->string('review');
-        //    $table->string('price');
-            $table->timestamps();
+            $table->integer('price');
+
+          //  $table->string('rating', 5)->nullable();
+            // $table->string('review');
+            //$table->string('price');
+            //$table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 
