@@ -14,7 +14,7 @@ class LectureListController extends Controller
      */
     public function index()
     {
-        //
+        return LectureList::all();
     }
 
     /**
@@ -35,7 +35,44 @@ class LectureListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $lecture = LectureList::create($request->all());
+
+        // return response()->json($lecture, 201);
+        // $this->validate($request, [
+        //         'filenames' => 'required',
+        //         'filenames.*' => 'mimes:doc,pdf,docx,zip'
+        // ]);
+        $data = [];
+        if($request->hasfile('lecture_file'))
+        {
+            foreach($request->file('lecture_file') as $file)
+
+            {
+                $lecture= new LectureList();
+                $lecture->course_id = $request->course_id;
+                $lecture->lecture_title = $request->lecture_title;
+
+                $name = time().'.'.$file->getClientOriginalName();
+                $file->move(public_path().'/files/', $name);  
+
+                $data[] = $name;  
+                $lecture->lecture_file=$name;
+
+                $lecture->save();
+               
+
+            }
+
+             return response()->json([
+                    'code'   => 200,
+                    'status' => true,
+                    'message'=> "Lecture list Successfully Store",
+                ], 200);
+
+
+         }
+
+        
     }
 
     /**
@@ -44,9 +81,11 @@ class LectureListController extends Controller
      * @param  \App\LectureList  $lectureList
      * @return \Illuminate\Http\Response
      */
-    public function show(LectureList $lectureList)
+    public function show(LectureList $lectureList, $course_id)
     {
-        //
+         return LectureList::with('course')
+        ->where('course_id', $course_id)
+        ->get();  
     }
 
     /**
@@ -55,9 +94,9 @@ class LectureListController extends Controller
      * @param  \App\LectureList  $lectureList
      * @return \Illuminate\Http\Response
      */
-    public function edit(LectureList $lectureList)
+    public function edit(LectureList $lectureList, $id)
     {
-        //
+        return LectureList::findOrFail($id);    
     }
 
     /**
@@ -67,9 +106,22 @@ class LectureListController extends Controller
      * @param  \App\LectureList  $lectureList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LectureList $lectureList)
+    public function update(Request $request, LectureList $lectureList, $id)
     {
-        //
+        
+        // $lectureList->update($request->all());
+
+        // return response()->json($lectureList, 200);
+        $lecture = LectureList::findOrFail($id);
+        $lecture->update($request->all());
+        return $lecture;
+
+        // return response()->json([
+        //         'code'   => 200,
+        //         'status' => true,
+        //         'message'=> "Lecture List Successfully Updated",
+        //     ], 200);
+       
     }
 
     /**
@@ -78,8 +130,19 @@ class LectureListController extends Controller
      * @param  \App\LectureList  $lectureList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LectureList $lectureList)
+    public function destroy(LectureList $lectureList, $id)
     {
-        //
+        $res = LectureList::destroy($id);
+        if ($res) {
+            return response()->json([
+                'status' => '1',
+                'msg' => 'success'
+            ]);
+        } else {
+            return response()->json([
+                'status' => '0',
+                'msg' => 'fail'
+            ]);
+        }    
     }
 }

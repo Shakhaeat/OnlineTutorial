@@ -61,6 +61,7 @@ class CommentController extends Controller
     public function store(Request $request, $lecture_list_id)
     {
        // Comment::create($request->all());
+        
         $com = new Comment;
         $com->user_id = Auth::id();
         $com->lecture_list_id = $lecture_list_id;

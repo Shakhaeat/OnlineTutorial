@@ -18,6 +18,7 @@ class CreateCoursesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('level');
+            $table->string('image');
             $table->text('description');
             $table->string('course_category')->nullable();
             $table->string('course_instructor');

@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    public function latestCourse(){
+    public function index(){
 
-    	//return Course::all();//Show all course
+    return Course::all();//Show all course
     	//return Course::latest()->take(10)->get();
-        return Course::latest()->get(['title', 'course_category', 'course_instructor','duration']);
+       // return Course::get(['title','level', 'image', 'course_category', 'course_instructor','duration']);
     }
 
     public function courseByID($id){
@@ -25,7 +25,11 @@ class CourseController extends Controller
     //Create New course
     public function store(Request $request)
     {
-        if (Auth::check()) {
+       
+            // $this->validate($request, [
+            //     'filenames' => 'required',
+            //     'filenames.*' => 'mimes:doc,pdf,docx,zip'
+            // ]);
             //$user_id = Auth::id();
             $course = new Course;
             $course->title = $request->title;
@@ -56,14 +60,34 @@ class CourseController extends Controller
                 'status' => true,
                 'message'=> "Course Successfully Store",
             ], 200);
-        }else{
-            return response()->json([
-                'code'   => 401,
-                'status' => false,
-                'message'=> "Unauthorized User",
-            ], 401);
-        }
+        
        // Course::create($request->all());
          
+    }
+
+     public function update(Request $request, $id)
+    {
+        
+        // $lectureList->update($request->all());
+
+        // return response()->json($lectureList, 200);
+        $course = Course::findOrFail($id);
+        $course->update($request->all());
+        return $course;
+
+        // return response()->json([
+        //         'code'   => 200,
+        //         'status' => true,
+        //         'message'=> "Lecture List Successfully Updated",
+        //     ], 200);
+       
+    }
+
+    //For Login User
+    public function latestCourse(){
+
+        //return Course::all();//Show all course
+        //return Course::latest()->take(10)->get();
+        return Course::latest()->get(['title','level', 'image', 'course_category', 'course_instructor','duration']);
     }
 }

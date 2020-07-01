@@ -76,7 +76,7 @@ Route::post('register', 'AuthController@register');
 
 //Route::get('course', 'CourseController@index');
 //Route::get('/course', 'CourseController@allCourse');
-Route::get('/course', 'CourseController@latestCourse');
+Route::get('/course', 'CourseController@index');
 //Route::post('/create', 'CourseController@create');
 Route::get('/course/{id}', 'CourseController@courseByID');
 
@@ -96,11 +96,29 @@ Route::group([
 
     //For Comments
     Route::post('comment/{lecture_list_id}', 'CommentController@store');
-    Route::get('comment/{lecture_list_id}/edit', 'CommentController@edit');
-    Route::put('comment/{lecture_list_id}', 'CommentController@update');
-    Route::delete('comment/{lecture_list_id}', 'CommentController@destroy');
+    Route::get('comment/{comment_id}/edit', 'CommentController@edit');
+    Route::put('comment/{comment_id}', 'CommentController@update');
+    Route::delete('comment/{comment_id}', 'CommentController@destroy');
 
     //For Courses
     Route::post('/course', 'CourseController@store');
+    Route::get('/course', 'CourseController@latestCourse');
+    Route::delete('/course/{course_id}', 'CourseController@delete()');
+    Route::get('/lecture_list/{lectureList_id}/edit', 'LectureListController@edit');
+    Route::put('/course/{course_id}', 'LectureListController@update');
+
+
+
+    //For lecture_list
+    Route::get('/lecture_list', 'LectureListController@index');
+    Route::post('/lecture_list', 'LectureListController@store');
+    Route::get('/lecture_list/{course_id}', 'LectureListController@show');
+    Route::get('/lecture_list/{lectureList_id}/edit', 'LectureListController@edit');
+    Route::put('/lecture_list/{lectureList}', 'LectureListController@update');
+    Route::delete('/lecture_list/{lectureList_id}', 'LectureListController@delete');
+
+
+
+
 
 });

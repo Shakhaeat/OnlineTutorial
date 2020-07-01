@@ -19,6 +19,7 @@ class CreateLectureListsTable extends Migration
             $table->unsignedBigInteger('course_id');    
             $table->string('lecture_title');
             $table->string('lecture_file');
+           // $table->strig('url');
            // $table->string('level');
             //$table->timestamps();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
