@@ -44,9 +44,9 @@ class AuthController extends Controller
     public function register(Request $request){
 
           $validator = Validator::make($request->all(), [
-            'name' => 'string|max:255',
-            'email' => 'string|max:255',
-            'password' => 'string|min:4',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'password' => 'required|string|min:4',
             
         ]);
         
@@ -111,14 +111,27 @@ class AuthController extends Controller
 
     public function login()
    {
-       $credentials = request(['email', 'password']);
+        $validator = Validator::make($request->all(), [
+           'email' => 'required|string|email',
+           'password' => 'required|string',
+         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'code' => 400,
+                'status' => false,
+                'message' => "Login.. Failed. Missing email or password."
+            ], 400);
+        }
+
+        $credentials = request(['email', 'password']);
  
-       if (! $token = auth()->attempt($credentials)) {
+        if (! $token = auth()->attempt($credentials)) {
            return response()->json(['error' => 'Unauthorized'], 401);
-       }
+        }
  
-       return $this->respondWithToken($token);
-   }
+        return $this->respondWithToken($token);
+       }
 
     /**
      * Get the authenticated User.
